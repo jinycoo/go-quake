@@ -3,4 +3,4 @@ mode = "" # mode = "debug"
 
 [quake]
     baseUrl = "https://quake.360.cn/api"
-    apiKey = "d17140ae-75f5-47cd-9fa8-c0818b2bbd9b" #""7ic13gwbvtGJLdEtD3QFz5Md3W6mliF7"
+    apiKey = "d17140ae-75f5-47cd-9fa8-c0818b2bbd9b"
