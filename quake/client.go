@@ -13,17 +13,18 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/jinycoo/go-quake/quake/core/query"
 	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
+
+	"github.com/jinycoo/go-quake/quake/core/query"
 )
 
 const (
-	GET = "GET"
-	POST = "POST"
+	GET   = "GET"
+	POST  = "POST"
 	Debug = "debug"
 
 	QToken = "X-QuakeToken"
@@ -31,11 +32,11 @@ const (
 
 // Client represents Quake HTTP client
 type Client struct {
-	Mode           string
-	ApiKey         string
-	Email          string
-	BaseURL        string
-	Client         *http.Client
+	Mode    string
+	ApiKey  string
+	Email   string
+	BaseURL string
+	Client  *http.Client
 }
 
 // NewQuakeClient creates new Quake client using environment variable
@@ -50,7 +51,7 @@ func NewQuakeClient(client *http.Client) *Client {
 		return &Client{
 			ApiKey:  cfg.Quake.ApiKey,
 			BaseURL: cfg.Quake.BaseUrl,
-			Mode: cfg.Mode,
+			Mode:    cfg.Mode,
 			Client:  client,
 		}
 	} else {
@@ -134,13 +135,13 @@ func (c *Client) parseResponse(destination, page interface{}, body io.Reader) (e
 		_, err = io.Copy(w, body)
 	} else {
 		decoder := json.NewDecoder(body)
-		var result = &QRes{Data:destination}
+		var result = &QRes{Data: destination}
 		if page != nil {
 			switch page.(type) {
 			case *Meta:
-				result = &QRes{Data:destination, Meta: page.(*Meta)}
+				result = &QRes{Data: destination, Meta: page.(*Meta)}
 			case *Pagination:
-				result = &QRes{Data:destination, Meta: &Meta{Page: page.(*Pagination)}}
+				result = &QRes{Data: destination, Meta: &Meta{Page: page.(*Pagination)}}
 			}
 		}
 		if err = decoder.Decode(result); err == nil {
@@ -152,4 +153,3 @@ func (c *Client) parseResponse(destination, page interface{}, body io.Reader) (e
 
 	return
 }
-
