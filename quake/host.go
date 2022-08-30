@@ -10,17 +10,18 @@ package quake
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"strings"
+
+	"github.com/jinycoo/go-quake/core/json"
 )
 
 const (
-	queryHostsPath   = "/v3/search/quake_host"
+	queryHostsPath         = "/v3/search/quake_host"
 	queryScrollHostsPath   = "/v3/scroll/quake_host"
 	queryAggHostFieldsPath = "/v3/aggregation/quake_host"
-	queryAggHostsPath = "/v3/aggregation/quake_host"
+	queryAggHostsPath      = "/v3/aggregation/quake_host"
 )
 
 type SearchHResult struct {
@@ -29,8 +30,8 @@ type SearchHResult struct {
 }
 
 type DepthSearchHResult struct {
-	Assets []*Host `json:"assets"`
-	Page *DepthPage `json:"page"`
+	Assets []*Host    `json:"assets"`
+	Page   *DepthPage `json:"page"`
 }
 
 func (c *Client) HostSearch(ctx context.Context, query string, pn, ps int, cache, deduplication bool) (*SearchHResult, error) {
@@ -57,17 +58,17 @@ func (c *Client) HostSearch(ctx context.Context, query string, pn, ps int, cache
 	if err != nil {
 		return nil, err
 	}
-    var page Pagination
+	var page Pagination
 	if err = c.Do(ctx, req, &hostAssets, &page); err != nil {
 		return nil, err
 	}
 	return &SearchHResult{
 		Assets: hostAssets,
 		CommonPagination: &CommonPagination{
-			Page: Page {
+			Page: Page{
 				Total: page.Total,
-				Num: page.PageIndex,
-				Size: page.PageSize,
+				Num:   page.PageIndex,
+				Size:  page.PageSize,
 			},
 		},
 	}, nil
@@ -105,10 +106,10 @@ func (c *Client) HostIPRuleSearch(ctx context.Context, rule string, pn, ps int, 
 	return &SearchHResult{
 		Assets: hostAssets,
 		CommonPagination: &CommonPagination{
-			Page: Page {
+			Page: Page{
 				Total: page.Total,
-				Num: page.PageIndex,
-				Size: page.PageSize,
+				Num:   page.PageIndex,
+				Size:  page.PageSize,
 			},
 		},
 	}, nil
@@ -145,10 +146,10 @@ func (c *Client) HostIPListSearch(ctx context.Context, ips string, pn, ps int, c
 	return &SearchHResult{
 		Assets: hostAssets,
 		CommonPagination: &CommonPagination{
-			Page: Page {
+			Page: Page{
 				Total: page.Total,
-				Num: page.PageIndex,
-				Size: page.PageSize,
+				Num:   page.PageIndex,
+				Size:  page.PageSize,
 			},
 		},
 	}, nil
@@ -269,7 +270,7 @@ func (c *Client) HostDepthSearch(ctx context.Context, query, pid string, ps int,
 	if err != nil {
 		return nil, err
 	}
-fmt.Println(string(b))
+	fmt.Println(string(b))
 	var meta Meta
 	if err = c.Do(ctx, req, &hostAssets, &meta); err != nil {
 		return nil, err
@@ -277,8 +278,8 @@ fmt.Println(string(b))
 
 	return &DepthSearchHResult{
 		Assets: hostAssets,
-		Page:  &DepthPage{
-			Total: meta.Total,
+		Page: &DepthPage{
+			Total:        meta.Total,
 			PaginationID: meta.PageID,
 		},
 	}, nil
@@ -308,8 +309,8 @@ func (c *Client) HostIPRuleDepthSearch(ctx context.Context, rule, pid string, ps
 
 	return &DepthSearchHResult{
 		Assets: hostAssets,
-		Page:  &DepthPage{
-			Total: meta.Total,
+		Page: &DepthPage{
+			Total:        meta.Total,
 			PaginationID: meta.PageID,
 		},
 	}, nil
@@ -339,8 +340,8 @@ func (c *Client) HostIPListDepthSearch(ctx context.Context, ips, pid string, ps 
 
 	return &DepthSearchHResult{
 		Assets: hostAssets,
-		Page:  &DepthPage{
-			Total: meta.Total,
+		Page: &DepthPage{
+			Total:        meta.Total,
 			PaginationID: meta.PageID,
 		},
 	}, nil

@@ -15,13 +15,13 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/jinycoo/go-quake/quake/core/toml"
+	"github.com/jinycoo/go-quake/core/toml"
 )
 
 type Config struct {
 	AppName string
 	Mode    string
-	Quake  *Quake
+	Quake   *Quake
 }
 
 type Quake struct {

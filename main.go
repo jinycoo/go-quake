@@ -20,12 +20,12 @@ func main() {
 	//res, err := client.GetServiceAggFields(ctx)
 	//res, err := client.ServiceIPListSearch(ctx, `2.233.127.6,2.229.167.121`, 1, 10, false, false)
 	//res, err := client.ServiceIPRuleSearch(ctx, `scan`, 1, 10, false, false)
-	res, err := client.ServiceSearch(ctx, `service:"http/ssl"`, 1, 10, false, false)
-	//res, err := client.GetVulnInfo(ctx, `CNNVD-199612-001`)
+	//res, err := client.ServiceSearch(ctx, `service:"http/ssl"`, 1, 10, false, false)
+	res, err := client.GetVulnInfo(ctx, `CNNVD-199612-001`)
 	//res, err := client.GetUserInfo(ctx)
 	//res, err := client.GetVendors(ctx, "Huawei华为技术有限公司")
 	if res != nil {
-		for _, asset := range res.Assets {
+		for _, asset := range res.VulCpe {
 			fmt.Println(asset)
 		}
 	}

@@ -10,7 +10,6 @@ package quake
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -19,7 +18,8 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/jinycoo/go-quake/quake/core/query"
+	"github.com/jinycoo/go-quake/core/json"
+	"github.com/jinycoo/go-quake/core/query"
 )
 
 const (

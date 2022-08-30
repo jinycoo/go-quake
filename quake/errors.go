@@ -8,11 +8,12 @@
 package quake
 
 import (
-	"encoding/json"
 	"errors"
 	"io"
 	"net/http"
 	"strings"
+
+	"github.com/jinycoo/go-quake/core/json"
 )
 
 var (

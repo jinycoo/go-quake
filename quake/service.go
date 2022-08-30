@@ -10,34 +10,35 @@ package quake
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"strings"
+
+	"github.com/jinycoo/go-quake/core/json"
 )
 
 const (
-	queryServicesPath   = "/v3/search/quake_service"
+	queryServicesPath         = "/v3/search/quake_service"
 	queryScrollServicesPath   = "/v3/scroll/quake_service"
 	queryAggServiceFieldsPath = "/v3/aggregation/quake_service"
-	queryAggServicesPath = "/v3/aggregation/quake_service"
+	queryAggServicesPath      = "/v3/aggregation/quake_service"
 )
 
 // QueryMatch represents a matched tag.
 type QueryMatch struct {
-	Query string `json:"query"`
-	Rule  string `json:"rule,omitempty"`
-	IpList []string `json:"ip_list,omitempty"`
-	PageSize int `json:"size,omitempty"`
-	IgnoreCache bool `json:"ignore_cache,omitempty"`
-	Deduplication bool `json:"latest,omitempty"`
-	StartTime string `json:"start_time,omitempty"`
-	EndTime   string `json:"end_time,omitempty"`
+	Query         string   `json:"query"`
+	Rule          string   `json:"rule,omitempty"`
+	IpList        []string `json:"ip_list,omitempty"`
+	PageSize      int      `json:"size,omitempty"`
+	IgnoreCache   bool     `json:"ignore_cache,omitempty"`
+	Deduplication bool     `json:"latest,omitempty"`
+	StartTime     string   `json:"start_time,omitempty"`
+	EndTime       string   `json:"end_time,omitempty"`
 }
 
 type QuerySearchMatch struct {
 	QueryMatch
-	Start  int  `json:"start,omitempty"`
+	Start int `json:"start,omitempty"`
 }
 
 type QueryScrollMatch struct {
@@ -47,7 +48,7 @@ type QueryScrollMatch struct {
 
 type QueryAggMatch struct {
 	QueryMatch
-	Fields  []string `json:"aggregation_list"`
+	Fields []string `json:"aggregation_list"`
 }
 
 type SearchResult struct {
@@ -57,16 +58,16 @@ type SearchResult struct {
 
 type AggInfo struct {
 	Key   interface{} `json:"key"`
-	Count float64 `json:"doc_count"`
+	Count float64     `json:"doc_count"`
 }
 
 type DepthSearchResult struct {
-	Assets []*Asset `json:"assets"`
-	Page *DepthPage `json:"page"`
+	Assets []*Asset   `json:"assets"`
+	Page   *DepthPage `json:"page"`
 }
 
 type DepthPage struct {
-	Total int `json:"total"`
+	Total        int    `json:"total"`
 	PaginationID string `json:"page_id"`
 }
 
@@ -101,10 +102,10 @@ func (c *Client) ServiceSearch(ctx context.Context, query string, pn, ps int, ca
 	return &SearchResult{
 		Assets: serviceAssets,
 		CommonPagination: &CommonPagination{
-			Page: Page {
+			Page: Page{
 				Total: page.Total,
-				Num: page.PageIndex,
-				Size: page.PageSize,
+				Num:   page.PageIndex,
+				Size:  page.PageSize,
 			},
 		},
 	}, nil
@@ -142,10 +143,10 @@ func (c *Client) ServiceIPRuleSearch(ctx context.Context, rule string, pn, ps in
 	return &SearchResult{
 		Assets: serviceAssets,
 		CommonPagination: &CommonPagination{
-			Page: Page {
+			Page: Page{
 				Total: page.Total,
-				Num: page.PageIndex,
-				Size: page.PageSize,
+				Num:   page.PageIndex,
+				Size:  page.PageSize,
 			},
 		},
 	}, nil
@@ -182,10 +183,10 @@ func (c *Client) ServiceIPListSearch(ctx context.Context, ips string, pn, ps int
 	return &SearchResult{
 		Assets: serviceAssets,
 		CommonPagination: &CommonPagination{
-			Page: Page {
+			Page: Page{
 				Total: page.Total,
-				Num: page.PageIndex,
-				Size: page.PageSize,
+				Num:   page.PageIndex,
+				Size:  page.PageSize,
 			},
 		},
 	}, nil
@@ -314,8 +315,8 @@ func (c *Client) ServiceDepthSearch(ctx context.Context, query, pid string, ps i
 
 	return &DepthSearchResult{
 		Assets: serviceAssets,
-		Page:  &DepthPage{
-			Total: meta.Total,
+		Page: &DepthPage{
+			Total:        meta.Total,
 			PaginationID: meta.PageID,
 		},
 	}, nil
@@ -345,8 +346,8 @@ func (c *Client) ServiceIPRuleDepthSearch(ctx context.Context, rule, pid string,
 
 	return &DepthSearchResult{
 		Assets: serviceAssets,
-		Page:  &DepthPage{
-			Total: meta.Total,
+		Page: &DepthPage{
+			Total:        meta.Total,
 			PaginationID: meta.PageID,
 		},
 	}, nil
@@ -376,8 +377,8 @@ func (c *Client) ServiceIPListDepthSearch(ctx context.Context, ips, pid string, 
 
 	return &DepthSearchResult{
 		Assets: serviceAssets,
-		Page:  &DepthPage{
-			Total: meta.Total,
+		Page: &DepthPage{
+			Total:        meta.Total,
 			PaginationID: meta.PageID,
 		},
 	}, nil
